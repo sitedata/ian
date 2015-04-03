@@ -1,0 +1,43 @@
+{
+  "name": "ian",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build": "gulp",
+    "clean": "gulp clean",
+    "dev": "gulp dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Narigo/ian.git"
+  },
+  "author": "Joern Bernhardt",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Narigo/ian/issues"
+  },
+  "browser": {
+    "jQuery": "./src/js/jquery-1.11.2.js"
+  },
+  "browserify-shim": {
+    "jQuery": "$"
+  },
+  "homepage": "https://github.com/Narigo/ian",
+  "devDependencies": {
+    "browserify": "^9.0.3",
+    "browserify-shim": "^3.8.3",
+    "cors-anywhere": "^0.2.2",
+    "del": "^1.1.1",
+    "fastclick": "^1.0.6",
+    "gulp": "^3.8.11",
+    "gulp-compass": "^2.0.3",
+    "gulp-livereload": "^3.7.0",
+    "gulp-minify-css": "^0.4.5",
+    "gulp-plumber": "^0.6.6",
+    "gulp-shell": "^0.3.0",
+    "internal-ip": "^1.0.0",
+    "through": "^2.3.6",
+    "vinyl-source-stream": "^1.1.0"
+  }
+}

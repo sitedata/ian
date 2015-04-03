@@ -1,0 +1,41 @@
+html, body {
+  margin: 0;
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background: $page-background;
+  font-family: "robotolight", Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #fff;
+  display: table;
+}
+
+#generated {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  font-size: 60px;
+  font-family: "robotolight", sans-serif;
+  font-weight: normal;
+  text-transform: uppercase;
+  color: $callme-text-color;
+
+  div {
+    display: block;
+  }
+
+  .text {
+    color: $callme-text-color;
+  }
+
+  .callme {
+    line-height: 1;
+    margin-bottom: 40px;
+    text-align: center;
+  }
+}
