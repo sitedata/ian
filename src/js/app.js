@@ -1,21 +1,10 @@
 var settings = require('./settings.js');
 var namegen = require('./namegen.js');
+var names = require('./names.js');
 var $ = require('jQuery');
 var attachFastClick = require('fastclick');
 
 var $text = $('#generated').find('.text');
-
-var spanish = ['hola', 'adiós'];
-
-var english = ['hello', 'bye'];
-
-var german = ['hallo', 'tschüss'];
-
-var names = [
-  spanish,
-  english,
-  german
-];
 
 attachFastClick(document.body);
 
