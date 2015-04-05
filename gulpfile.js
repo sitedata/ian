@@ -5,6 +5,8 @@ gulp.task('assets', assetCopy);
 gulp.task('scripts', browserifyScripts);
 gulp.task('clean', clean);
 
+gulp.task('texts', updateTexts);
+
 gulp.task('prepareAndReload', ['prepare'], reloader);
 gulp.task('prepare', ['default'], cordovaPrepare);
 gulp.task('devEnvironment', devEnvironment);
@@ -16,14 +18,18 @@ var Path = require('path');
 var compass = require('gulp-compass');
 var minifyCss = require('gulp-minify-css');
 var del = require('del');
+var fs = require('fs');
+var csv = require('fast-csv');
 var browserify = require('browserify');
 var shell = require('gulp-shell');
 var liveReload = require('gulp-livereload');
 var plumber = require('gulp-plumber');
 var corsProxy = require('cors-anywhere');
 var internalIp = require('internal-ip');
+var request = require('request');
 var source = require('vinyl-source-stream');
 var through = require('through');
+var config = require('./config.json');
 
 var devMode = false;
 
@@ -33,6 +39,56 @@ var settings = {
 };
 
 console.log('settings.corsProxyHost=' + settings.corsProxyHost);
+
+function updateTexts(cb) {
+  var count = config.worksheetIds.length;
+  var sheetId = config.sheetId;
+  var allTexts = [];
+
+  config.worksheetIds.forEach(function (id, idx) {
+    var first = true;
+    var texts = [];
+    var link = getCsvLink(sheetId, id);
+
+    request(link)
+      .pipe(csv().on('data', function (data) {
+        var i, len;
+        len = data.length;
+
+        if (first) {
+          for (i = 0; i < len; i++) {
+            texts[i] = [];
+          }
+          first = false;
+        }
+
+        data.forEach(function (elem, i) {
+          if (elem !== '') {
+            texts[i].push(elem);
+          }
+        });
+      }).on('end', function () {
+        allTexts[idx] = texts;
+        done();
+      }))
+      .on('error', function (err) {
+        console.log('error!');
+        cb(err);
+      });
+  });
+
+  function getCsvLink(sheetId, id) {
+    return 'https://docs.google.com/feeds/download/spreadsheets/Export?key=' + sheetId + '&exportFormat=csv&gid=' + id;
+  }
+
+  function done() {
+    count--;
+    if (count === 0) {
+      fs.writeFileSync(config.outputJson, JSON.stringify(allTexts));
+      cb();
+    }
+  }
+}
 
 function devEnvironment(cb) {
   devMode = true;
@@ -56,7 +112,7 @@ function sassCompile() {
       sass : 'src/scss',
       image : 'src/img'
     }))
-    //.pipe(minifyCss())
+    .pipe(minifyCss())
     .pipe(gulp.dest('www/css'));
 }
 

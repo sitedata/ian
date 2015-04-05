@@ -10,3 +10,5 @@ www
 .sass-cache
 platforms
 plugins
+
+config.json

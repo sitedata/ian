@@ -2,7 +2,7 @@ var nameGen = (function() {
   var nameGenFromArray = function(names) {
     var name = '', i = 0, l = names.length;
     while (i < l) {
-      name = name + names[i][(Math.floor(Math.random() * names[i].length))];
+      name = name + ' ' + names[i][(Math.floor(Math.random() * names[i].length))];
       i = i + 1;
     }
 

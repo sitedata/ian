@@ -1,6 +1,6 @@
 var settings = require('./settings.js');
 var namegen = require('./namegen.js');
-var names = require('./names.js');
+var names = require('./texts.json');
 var $ = require('jQuery');
 var attachFastClick = require('fastclick');
 
@@ -14,7 +14,7 @@ pickAndChange();
 
 function pick() {
   var lang = names[Math.floor(Math.random() * names.length)];
-  return lang[Math.floor(Math.random() * lang.length)];
+  return namegen.fromArray(lang);
 }
 
 function pickAndChange() {
