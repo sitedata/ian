@@ -1,15 +1,19 @@
-var nameGen = (function() {
-  var nameGenFromArray = function(names) {
-    var name = '', i = 0, l = names.length;
+var nameGen = (function () {
+  var nameGenFromArray = function (names) {
+    var name = '', i = 0, l = names.length, part;
     while (i < l) {
-      name = name + ' ' + names[i][(Math.floor(Math.random() * names[i].length))];
+      part = names[i][(Math.floor(Math.random() * names[i].length))]
+      if (!/^[\.! ?]*$/.test(part)) {
+        name += ' ';
+      }
+      name += part;
       i = i + 1;
     }
 
     return name;
   };
 
-  var generateFromMultiDimensionalArray = function(dimensions, names) {
+  var generateFromMultiDimensionalArray = function (dimensions, names) {
     var x = Math.floor(Math.random() * names.length);
     var dims = dimensions - 1;
     if (dims <= 1) {
