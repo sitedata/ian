@@ -6,6 +6,7 @@ gulp.task('scripts', browserifyScripts);
 gulp.task('clean', clean);
 
 gulp.task('texts', updateTexts);
+gulp.task('icons', createIcons);
 
 gulp.task('prepareAndReload', ['prepare'], reloader);
 gulp.task('prepare', ['default'], cordovaPrepare);
@@ -17,9 +18,11 @@ gulp.task('default', ['sass', 'assets', 'scripts']);
 var Path = require('path');
 var compass = require('gulp-compass');
 var minifyCss = require('gulp-minify-css');
+var gutil = require('gulp-util');
 var del = require('del');
 var fs = require('fs');
 var csv = require('fast-csv');
+var gm = require('gm');
 var browserify = require('browserify');
 var shell = require('gulp-shell');
 var liveReload = require('gulp-livereload');
@@ -35,10 +38,97 @@ var devMode = false;
 
 var settings = {
   corsProxyHost : internalIp(),
-  corsProxyPort : 1234
+  corsProxyPort : 1234,
+  icon : Path.join('res', 'icon.png')
 };
 
-console.log('settings.corsProxyHost=' + settings.corsProxyHost);
+gutil.log('settings.corsProxyHost=' + settings.corsProxyHost);
+
+function createIcons(cb) {
+  fs.mkdir('res', function (err) {
+    if (!err || err.code === 'EEXIST') {
+      convertImageToIcons(settings.icon, cb);
+    } else {
+      cb(err);
+    }
+  });
+}
+
+function convertImageToIcons(file, cb) {
+  var count = 0;
+  var called = false;
+  var androidDir = Path.join('res', 'android');
+  var iosDir = Path.join('res', 'ios');
+
+  fs.mkdir(androidDir, function (err) {
+    if (!err || err.code === 'EEXIST') {
+      resizeImage(36, androidDir);
+      resizeImage(48, androidDir);
+      resizeImage(72, androidDir);
+      resizeImage(96, androidDir);
+      resizeImage(144, androidDir);
+    } else {
+      gutil.log('could not create directory ' + androidDir);
+      cb(err);
+    }
+  });
+
+  fs.mkdir(iosDir, function (err) {
+    if (!err || err.code === 'EEXIST') {
+      resizeImage(180, iosDir);
+      resizeImage(60, iosDir);
+      resizeImage(120, iosDir);
+      resizeImage(76, iosDir);
+      resizeImage(152, iosDir);
+      resizeImage(40, iosDir);
+      resizeImage(80, iosDir);
+      resizeImage(57, iosDir);
+      resizeImage(114, iosDir);
+      resizeImage(72, iosDir);
+      resizeImage(144, iosDir);
+      resizeImage(29, iosDir);
+      resizeImage(58, iosDir);
+      resizeImage(50, iosDir);
+      resizeImage(100, iosDir);
+    } else {
+      gutil.log('could not create directory ' + iosDir);
+      cb(err);
+    }
+  });
+
+  function resizeImage(size, dir) {
+    count++;
+    var name = Path.join(dir, 'icon-' + size + 'x' + size + '.png');
+    gm(file)
+      .options({imageMagick : true})
+      .resize(size, size)
+      .write(name, function (err) {
+        if (!err) {
+          gutil.log('resized to ' + size + 'x' + size + ' into ' + name);
+        } else {
+          gutil.log('could not resize into ' + name + '! ' + err);
+        }
+        done(err);
+      });
+  }
+
+  function done(err) {
+    if (!called) {
+      if (err) {
+        count = 0;
+        called = true;
+        cb(err);
+      } else {
+        count--;
+        if (count == 0) {
+          called = true;
+          cb();
+        }
+      }
+    }
+  }
+
+}
 
 function updateTexts(cb) {
   var count = config.worksheetIds.length;
@@ -49,11 +139,13 @@ function updateTexts(cb) {
     var first = true;
     var texts = [];
     var link = getCsvLink(sheetId, id);
+    gutil.log('downloading ' + link);
 
     request(link)
       .pipe(csv().on('data', function (data) {
         var i, len;
         len = data.length;
+        gutil.log(data);
 
         if (first) {
           for (i = 0; i < len; i++) {

@@ -2,16 +2,47 @@
 <widget id="de.unreleased.ian" version="0.0.1" xmlns="http://www.w3.org/ns/widgets"
         xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>Ian</name>
-  <description>
-    A sample Apache Cordova application that responds to the deviceready event.
-  </description>
-  <author email="dev@cordova.apache.org" href="http://cordova.io">
-    Apache Cordova Team
-  </author>
+  <description>A little app for random texts</description>
+  <author email="jb@campudus.com" href="http://www.campudus.com">Joern Bernhardt</author>
   <content src="index.html"/>
   <access origin="*"/>
   <preference name="Orientation" value="portrait" />
   <preference name="DisallowOverscroll" value="true" />
+  <platform name="android">
+    <icon src="res/android/icon-36x36.png" density="ldpi"/>
+    <icon src="res/android/icon-48x48.png" density="mdpi"/>
+    <icon src="res/android/icon-72x72.png" density="hdpi"/>
+    <icon src="res/android/icon-96x96.png" density="xhdpi"/>
+    <icon src="res/android/icon-144x144.png" density="xxhdpi"/>
+  </platform>
+  <platform name="ios">
+    <!-- iOS 8.0+ -->
+    <!-- iPhone 6 Plus  -->
+    <icon src="res/ios/icon-180x180.png" widht="180" height="180"/>
+    <!-- iOS 7.0+ -->
+    <!-- iPhone / iPod Touch  -->
+    <icon src="res/ios/icon-60x60.png" widht="60" height="60"/>
+    <icon src="res/ios/icon-120x120.png" widht="120" height="120"/>
+    <!-- iPad -->
+    <icon src="res/ios/icon-76x76.png" widht="76" height="76"/>
+    <icon src="res/ios/icon-152x152.png" widht="152" height="152"/>
+    <!-- iOS 6.1 -->
+    <!-- Spotlight Icon -->
+    <icon src="res/ios/icon-40x40.png" widht="40" height="40"/>
+    <icon src="res/ios/icon-80x80.png" widht="80" height="80"/>
+    <!-- iPhone / iPod Touch -->
+    <icon src="res/ios/icon-57x57.png" widht="57" height="57"/>
+    <icon src="res/ios/icon-114x114.png" widht="114" height="114"/>
+    <!-- iPad -->
+    <icon src="res/ios/icon-72x72.png" widht="72" height="72"/>
+    <icon src="res/ios/icon-144x144.png" widht="144" height="144"/>
+    <!-- iPhone Spotlight and Settings Icon -->
+    <icon src="res/ios/icon-29x29.png" widht="29" height="29"/>
+    <icon src="res/ios/icon-58x58.png" widht="58" height="58"/>
+    <!-- iPad Spotlight and Settings Icon -->
+    <icon src="res/ios/icon-50x50.png" widht="50" height="50"/>
+    <icon src="res/ios/icon-100x100.png" widht="100" height="100"/>
+  </platform>
   <feature name="GapReload">
     <param name="id" value="pro.fing.cordova.gapreload"/>
   </feature>

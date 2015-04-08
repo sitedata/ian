@@ -11,4 +11,7 @@ www
 platforms
 plugins
 
+res/android
+res/ios
+
 config.json
