@@ -18,10 +18,17 @@
     "url": "https://github.com/Narigo/ian/issues"
   },
   "browser": {
-    "jQuery": "./src/js/jquery-1.11.2.js"
+    "jQuery": "./src/js/jquery-1.11.2.js",
+    "jQuery-fittext": "./src/js/jquery.fittext.js"
   },
   "browserify-shim": {
-    "jQuery": "$"
+    "jQuery": {
+      "exports": "$"
+    },
+    "jQuery-fittext": {
+      "exports": null,
+      "depends": ["jQuery:jQuery"]
+    }
   },
   "homepage": "https://github.com/Narigo/ian",
   "devDependencies": {
